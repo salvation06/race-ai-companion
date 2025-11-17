@@ -57,6 +57,21 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        racing: {
+          red: "hsl(var(--racing-red))",
+          "red-dark": "hsl(var(--racing-red-dark))",
+          black: "hsl(var(--racing-black))",
+          white: "hsl(var(--racing-white))",
+          gray: "hsl(var(--racing-gray))",
+        },
+      },
+      backgroundImage: {
+        "gradient-racing": "var(--gradient-racing)",
+        "gradient-dark": "var(--gradient-dark)",
+      },
+      boxShadow: {
+        racing: "var(--shadow-racing)",
+        glow: "var(--glow-racing)",
       },
       borderRadius: {
         lg: "var(--radius)",
