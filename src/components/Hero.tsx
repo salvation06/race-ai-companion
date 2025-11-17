@@ -43,16 +43,27 @@ const Hero = ({ onStartDemo }: HeroProps) => {
           <span className="text-primary font-medium">Every millisecond matters.</span>
         </p>
 
-        {/* CTA Button */}
-        <Button
-          onClick={onStartDemo}
-          size="lg"
-          className="group relative bg-gradient-racing hover:shadow-racing transition-all duration-300 text-lg px-8 py-6 font-bold"
-        >
-          <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
-          START DEMO
-          <div className="absolute inset-0 bg-gradient-racing opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
-        </Button>
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <Button
+            onClick={onStartDemo}
+            size="lg"
+            className="group relative bg-gradient-racing hover:shadow-racing transition-all duration-300 text-lg px-8 py-6 font-bold"
+          >
+            <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+            START DEMO
+            <div className="absolute inset-0 bg-gradient-racing opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
+          </Button>
+          
+          <Button
+            onClick={() => window.location.href = '/heartbeat'}
+            size="lg"
+            variant="outline"
+            className="text-lg px-8 py-6 font-bold border-2 hover:border-primary hover:text-primary transition-all duration-300"
+          >
+            LIVE HEARTBEAT DASHBOARD
+          </Button>
+        </div>
 
         {/* Stats */}
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
