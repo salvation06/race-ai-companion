@@ -46,8 +46,24 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
       if (scene.videoSrc && videoRef.current) {
         videoRef.current.play();
       }
-      if (scene.narration) {
+      if (scene.narration && scene.narration.trim()) {
         speak(scene.narration);
+      } else if (!scene.narration || !scene.narration.trim()) {
+        // Auto-advance after video ends if no narration
+        if (scene.videoSrc && videoRef.current) {
+          const video = videoRef.current;
+          const handleVideoEnd = () => {
+            setTimeout(() => {
+              if (currentScene < scenes.length - 1) {
+                setCurrentScene(prev => prev + 1);
+              } else {
+                onComplete();
+              }
+            }, 500);
+          };
+          video.addEventListener('ended', handleVideoEnd);
+          return () => video.removeEventListener('ended', handleVideoEnd);
+        }
       }
     }
   }, [currentScene, isPlaying, isPaused]);
