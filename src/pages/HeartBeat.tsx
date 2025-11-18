@@ -6,12 +6,37 @@ import { parseRaceData, generateLiveRaceData } from "@/utils/raceDataParser";
 import { Navigation } from "@/components/Navigation";
 import raceDataCSV from "@/data/race-results.csv?raw";
 import trackMap from "@/assets/indy-track.jpg";
+import { PaceRegressionAgent } from "@/agents/paceRegressionAgent";
+import { WeatherAgent } from "@/agents/weatherAgent";
+import { EngineTireAgent } from "@/agents/engineTireAgent";
+import { LeadChaseAgent } from "@/agents/leadChaseAgent";
+import { DriverStateAgent } from "@/agents/driverStateAgent";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function HeartBeat() {
   const [currentLap, setCurrentLap] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
   const [raceDrivers, setRaceDrivers] = useState<any[]>([]);
   const [liveData, setLiveData] = useState<any[]>([]);
+  
+  // Initialize agents
+  const [agents] = useState(() => ({
+    paceRegression: new PaceRegressionAgent(),
+    weather: new WeatherAgent(),
+    engineTire: new EngineTireAgent(),
+    leadChase: new LeadChaseAgent(),
+    driverState: new DriverStateAgent()
+  }));
+  
+  // Simulated weather data
+  const [weatherData] = useState({
+    airTempC: 24.3,
+    trackTempC: 32.1,
+    humidityPct: 55,
+    windSpeedKph: 9,
+    windDirectionDeg: 210,
+    conditions: "Sunny" as const
+  });
 
   useEffect(() => {
     const drivers = parseRaceData(raceDataCSV);
@@ -20,12 +45,36 @@ export default function HeartBeat() {
 
   useEffect(() => {
     if (raceDrivers.length > 0) {
-      const live = raceDrivers.map(driver => 
-        generateLiveRaceData(driver, currentLap, 26)
-      );
+      const live = raceDrivers.map(driver => {
+        const carData = generateLiveRaceData(driver, currentLap, 26);
+        
+        // Run agents on each car
+        const paceAnalysis = agents.paceRegression.analyzePace(carData, []);
+        const weatherAnalysis = agents.weather.analyzeWeather(weatherData);
+        const engineTire = agents.engineTire.estimateHealth(carData, weatherData);
+        const driverState = agents.driverState.analyzeDriverState(carData, paceAnalysis);
+        
+        // Lead chase analysis for cars within 10s of leader
+        const leaderCar = raceDrivers[0];
+        const leaderData = leaderCar ? generateLiveRaceData(leaderCar, currentLap, 26) : null;
+        const leadChase = leaderData && carData.position > 1 && carData.gapToFirstSec && carData.gapToFirstSec < 10
+          ? agents.leadChase.calculateCatchUp(carData, leaderData, 26 - currentLap)
+          : null;
+        
+        return {
+          ...carData,
+          analysis: {
+            paceAnalysis,
+            weatherAnalysis,
+            engineTire,
+            driverState,
+            leadChase
+          }
+        };
+      });
       setLiveData(live);
     }
-  }, [currentLap, raceDrivers]);
+  }, [currentLap, raceDrivers, agents, weatherData]);
 
   useEffect(() => {
     if (!isRunning || currentLap >= 26) {
@@ -159,14 +208,15 @@ export default function HeartBeat() {
 
         {/* AI Integration Notice */}
         <div className="mt-8 p-6 bg-accent/10 border border-accent rounded-lg">
-          <h3 className="text-lg font-bold mb-2 text-foreground">🤖 AI Crew Chief Integration</h3>
+          <h3 className="text-lg font-bold mb-2 text-foreground">🤖 AI Crew Chief Integration - LIVE</h3>
           <p className="text-muted-foreground mb-2">
-            Click "Get AI Analysis" on any car to receive real-time strategic recommendations.
-            Currently using mock API - LLM integration coming in Phase 2.
+            Click "Get AI Analysis" on any car to receive real-time strategic recommendations powered by Lovable AI.
+            Multi-agent system analyzing: Pace Regression, Weather Conditions, Engine/Tire Health, Driver State, and Chase Strategy.
           </p>
-          <code className="text-xs bg-muted p-2 rounded block text-foreground">
-            mockAIService.ts → Future: Lovable AI / OpenAI GPT integration
-          </code>
+          <div className="flex gap-2 mt-3">
+            <code className="text-xs bg-muted px-2 py-1 rounded text-foreground">google/gemini-2.5-flash</code>
+            <code className="text-xs bg-muted px-2 py-1 rounded text-foreground">Agent2Agent System</code>
+          </div>
         </div>
       </div>
     </div>

@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Gauge, TrendingUp, Trophy, Clock } from "lucide-react";
-import { mockAIAnalyze, AIRaceAnalysis } from "@/services/mockAIService";
+import { Gauge, TrendingUp, Trophy, Clock, Brain } from "lucide-react";
+import { AgentAnalysisPanel } from "@/components/AgentAnalysisPanel";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CarTelemetryCardProps {
   carNumber: string;
-  driverName: string;
+  driverName?: string;
+  driver?: string;
   position: number;
   currentLap: number;
   speed: number;
@@ -15,35 +17,73 @@ interface CarTelemetryCardProps {
   gapToLeader: string;
   team: string;
   progress: number;
+  analysis?: any;
 }
 
 export const CarTelemetryCard = ({
   carNumber,
   driverName,
+  driver,
   position,
   currentLap,
   speed,
   lastLapTime,
   gapToLeader,
   team,
-  progress
+  progress,
+  analysis
 }: CarTelemetryCardProps) => {
-  const [aiAnalysis, setAiAnalysis] = useState<AIRaceAnalysis | null>(null);
+  const [llmInsight, setLlmInsight] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  
+  const displayName = driverName || driver || 'Unknown Driver';
 
   const handleAIAnalysis = async () => {
     setLoading(true);
-    const analysis = await mockAIAnalyze({
-      carNumber,
-      driverName,
-      position,
-      currentLap,
-      speed,
-      lastLapTime,
-      gapToLeader
-    });
-    setAiAnalysis(analysis);
-    setLoading(false);
+    setShowAnalysis(true);
+    
+    try {
+      // Call the AI Crew Chief edge function
+      const { data, error } = await supabase.functions.invoke('ai-crew-chief', {
+        body: {
+          carContext: {
+            car: {
+              carNumber,
+              position,
+              currentLap,
+              speed,
+              lastLapTime,
+              gapToLeader,
+              team,
+              driver: displayName
+            },
+            paceAnalysis: analysis?.paceAnalysis,
+            weatherAnalysis: analysis?.weatherAnalysis,
+            engineTire: analysis?.engineTire,
+            driverState: analysis?.driverState,
+            leadChase: analysis?.leadChase
+          }
+        }
+      });
+
+      if (error) throw error;
+      
+      setLlmInsight(data);
+      
+      // Update analysis with LLM insight
+      if (analysis) {
+        analysis.llmInsight = data;
+      }
+    } catch (error) {
+      console.error('Error getting AI analysis:', error);
+      setLlmInsight({
+        insight: 'Unable to get AI analysis at this time.',
+        priority: 'low'
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getPositionColor = () => {
@@ -70,7 +110,7 @@ export const CarTelemetryCard = ({
               P{position}
             </div>
             <div>
-              <CardTitle className="text-lg">#{carNumber} {driverName}</CardTitle>
+              <CardTitle className="text-lg">#{carNumber} {displayName}</CardTitle>
               <p className="text-sm text-muted-foreground">{team}</p>
             </div>
           </div>
@@ -121,26 +161,29 @@ export const CarTelemetryCard = ({
           </div>
         </div>
 
-        <Button 
-          onClick={handleAIAnalysis} 
-          disabled={loading}
-          className="w-full"
-          variant="secondary"
-        >
-          {loading ? "Analyzing..." : "Get AI Analysis"}
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={handleAIAnalysis} 
+            disabled={loading}
+            className="flex-1"
+            variant="secondary"
+          >
+            <Brain className="mr-2 h-4 w-4" />
+            {loading ? "Analyzing..." : "Get AI Analysis"}
+          </Button>
+          {showAnalysis && (
+            <Button
+              onClick={() => setShowAnalysis(!showAnalysis)}
+              variant="outline"
+              size="sm"
+            >
+              {showAnalysis ? 'Hide' : 'Show'}
+            </Button>
+          )}
+        </div>
 
-        {aiAnalysis && (
-          <div className="space-y-2 p-3 bg-muted/50 rounded-lg border border-border">
-            <div className="flex items-center justify-between">
-              <Badge variant={getConcernColor(aiAnalysis.concernLevel)}>
-                {aiAnalysis.concernLevel.toUpperCase()}
-              </Badge>
-              <span className="text-xs text-muted-foreground">Predicted: P{aiAnalysis.predictedFinish}</span>
-            </div>
-            <p className="text-sm font-medium text-foreground">{aiAnalysis.recommendation}</p>
-            <p className="text-xs text-muted-foreground">{aiAnalysis.strategyTip}</p>
-          </div>
+        {showAnalysis && analysis && (
+          <AgentAnalysisPanel analysis={{ ...analysis, llmInsight }} />
         )}
       </CardContent>
     </Card>
