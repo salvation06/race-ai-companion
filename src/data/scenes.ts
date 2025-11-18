@@ -25,17 +25,17 @@ export const scenes: Scene[] = [
   },
   {
     id: 3,
-    title: "Dashboard Overview",
-    visual: "Futuristic Toyota GR dashboard with race data",
-    narration: "",
-    videoSrc: "/videos/dashboard.mp4"
-  },
-  {
-    id: 4,
     title: "Pit Strategy",
     visual: "Pit operations and team coordination",
     narration: "",
     videoSrc: "/videos/pit-stop.mp4"
+  },
+  {
+    id: 4,
+    title: "Dashboard Overview",
+    visual: "Futuristic Toyota GR dashboard with race data",
+    narration: "",
+    videoSrc: "/videos/dashboard.mp4"
   },
   {
     id: 5,
