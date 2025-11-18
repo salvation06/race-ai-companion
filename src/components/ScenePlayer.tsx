@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, SkipForward, Volume2 } from "lucide-react";
+import { Play, Pause, SkipForward, SkipBack, Volume2 } from "lucide-react";
 import { scenes } from "@/data/scenes";
 
 interface ScenePlayerProps {
@@ -74,6 +74,13 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
     }
   };
 
+  const handleBack = () => {
+    speechSynthesis.cancel();
+    if (currentScene > 0) {
+      setCurrentScene(prev => prev - 1);
+    }
+  };
+
   return (
     <section className="min-h-screen bg-background py-20">
       <div className="container mx-auto px-4">
@@ -122,6 +129,14 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
               {/* Overlay controls */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                 <div className="flex items-center justify-center gap-4">
+                  <Button
+                    onClick={handleBack}
+                    size="lg"
+                    variant="outline"
+                    disabled={currentScene === 0}
+                  >
+                    <SkipBack className="h-5 w-5" />
+                  </Button>
                   {!isPlaying || isPaused ? (
                     <Button
                       onClick={handlePlay}
