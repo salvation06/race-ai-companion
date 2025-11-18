@@ -34,8 +34,10 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
       
       const utterance = new SpeechSynthesisUtterance(text);
       
-      // Select a better male voice (prefer Google or Microsoft voices)
+      // Select Microsoft David as primary voice
       const preferredVoices = [
+        'Microsoft David',
+        'David',
         'Google UK English Male',
         'Microsoft David Desktop',
         'Google US English Male',
