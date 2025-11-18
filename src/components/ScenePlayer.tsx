@@ -11,18 +11,48 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
   const [currentScene, setCurrentScene] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   const scene = scenes[currentScene];
+
+  // Load available voices
+  useEffect(() => {
+    const loadVoices = () => {
+      const availableVoices = speechSynthesis.getVoices();
+      setVoices(availableVoices);
+    };
+
+    loadVoices();
+    speechSynthesis.onvoiceschanged = loadVoices;
+  }, []);
 
   const speak = (text: string) => {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel(); // Cancel any ongoing speech
       
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.95;
-      utterance.pitch = 1.0;
+      
+      // Select a better male voice (prefer Google or Microsoft voices)
+      const preferredVoices = [
+        'Google UK English Male',
+        'Microsoft David Desktop',
+        'Google US English Male',
+        'Alex',
+        'Daniel'
+      ];
+      
+      const selectedVoice = voices.find(voice => 
+        preferredVoices.some(preferred => voice.name.includes(preferred))
+      ) || voices.find(voice => voice.name.toLowerCase().includes('male'));
+      
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+      
+      utterance.rate = 0.9;
+      utterance.pitch = 0.9;
       utterance.volume = 1.0;
 
       utterance.onend = () => {
