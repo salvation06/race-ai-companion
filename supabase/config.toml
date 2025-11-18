@@ -1,0 +1,4 @@
+project_id = "amicyszisnwwinvlrhhc"
+
+[functions.ai-crew-chief]
+verify_jwt = false

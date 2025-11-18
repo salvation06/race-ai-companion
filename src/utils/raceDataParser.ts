@@ -49,16 +49,38 @@ export const generateLiveRaceData = (driver: RaceDriver, currentLap: number, max
   const progress = currentLap / maxLaps;
   const avgLapTime = parseLapTime(driver.fastestLapTime) * 1.02; // Slightly slower than fastest
   const currentSpeed = driver.fastestLapKph * (0.95 + Math.random() * 0.1);
+  const lastLapTimeSec = parseLapTime(driver.fastestLapTime) * (1 + (Math.random() * 0.03 - 0.015));
+  const gapToFirstSec = driver.gapFirst === '-' ? 0 : parseFloat(driver.gapFirst.replace('+', ''));
+  
+  // Calculate regression stats
+  const avgLapTimeSec = avgLapTime;
+  const regressionMeanSec = avgLapTimeSec * (1 + (Math.random() * 0.02 - 0.01));
+  const regressionZScore = (lastLapTimeSec - regressionMeanSec) / (regressionMeanSec * 0.02);
   
   return {
     carNumber: driver.carNumber,
-    driverName: `${driver.driverFirstName} ${driver.driverLastName}`,
-    currentLap,
-    speed: Math.round(currentSpeed * 10) / 10,
     position: driver.position,
-    gapToLeader: driver.gapFirst,
-    lastLapTime: driver.fastestLapTime,
+    driver: `${driver.driverFirstName} ${driver.driverLastName}`,
+    driverName: `${driver.driverFirstName} ${driver.driverLastName}`,
     team: driver.team,
+    lapsCompleted: currentLap,
+    currentLap,
+    totalTime: driver.totalTime,
+    speed: Math.round(currentSpeed * 10) / 10,
+    speedKphBest: driver.fastestLapKph,
+    lastLapTime: driver.fastestLapTime,
+    lastLapTimeSec,
+    bestLapTimeSec: parseLapTime(driver.fastestLapTime),
+    avgLapTimeSec,
+    regressionMeanSec,
+    regressionZScore,
+    heroLapFlag: regressionZScore < -1.5,
+    fallingBackFlag: regressionZScore > 1.5,
+    gapToLeader: driver.gapFirst,
+    gapToFirstSec: isNaN(gapToFirstSec) ? null : gapToFirstSec,
+    gapToPrevSec: driver.gapPrevious === '-' ? null : parseFloat(driver.gapPrevious.replace('+', '')),
+    class: 'Am',
+    vehicle: 'Toyota GR86',
     progress: Math.round(progress * 100)
   };
 };
