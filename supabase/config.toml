@@ -2,3 +2,6 @@ project_id = "amicyszisnwwinvlrhhc"
 
 [functions.ai-crew-chief]
 verify_jwt = false
+
+[functions.crew-chief-qa]
+verify_jwt = false

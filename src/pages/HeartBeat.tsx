@@ -4,6 +4,7 @@ import { Play, Pause, RotateCcw } from "lucide-react";
 import { CarTelemetryCard } from "@/components/CarTelemetryCard";
 import { parseRaceData, generateLiveRaceData } from "@/utils/raceDataParser";
 import { Navigation } from "@/components/Navigation";
+import { CrewChiefDialog } from "@/components/CrewChiefDialog";
 import raceDataCSV from "@/data/race-results.csv?raw";
 import trackMap from "@/assets/indy-track.jpg";
 import { PaceRegressionAgent } from "@/agents/paceRegressionAgent";
@@ -112,6 +113,7 @@ export default function HeartBeat() {
               <p className="text-muted-foreground">Live Race Telemetry Dashboard</p>
             </div>
             <div className="flex items-center gap-2">
+              <CrewChiefDialog carContext={liveData[0]} />
               <Button
                 onClick={handlePlayPause}
                 size="lg"
