@@ -40,27 +40,27 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
       
       // Use different voices for Driver vs AI Crew Chief/Narrator
       if (currentSpeaker === 'Driver') {
-        // Driver voice: prefer female or higher-pitched voice
+        // Driver voice: prefer different male voice than crew chief
         const driverVoicePreferences = [
-          'Microsoft Zira',
-          'Zira',
-          'Samantha',
-          'Google UK English Female',
-          'Google US English Female',
-          'Karen',
-          'Victoria'
+          'Microsoft Mark',
+          'Mark',
+          'Google US English',
+          'Fred',
+          'Ralph',
+          'Microsoft Zira Desktop',
+          'Rishi'
         ];
         
         const selectedVoice = voices.find(voice => 
           driverVoicePreferences.some(preferred => voice.name.includes(preferred))
-        ) || voices.find(voice => voice.name.toLowerCase().includes('female'));
+        ) || voices.find(voice => voice.lang.includes('en') && !voice.name.includes('David'));
         
         if (selectedVoice) {
           utterance.voice = selectedVoice;
         }
         
-        utterance.rate = 0.95;
-        utterance.pitch = 1.1; // Slightly higher pitch for driver
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0; // Normal pitch for driver
         utterance.volume = 1.0;
       } else {
         // AI Crew Chief/Narrator voice: prefer deeper male voice
