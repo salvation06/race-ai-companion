@@ -16,7 +16,7 @@ export const scenes: Scene[] = [
     visual: "AI commercial introduction",
     speaker: "Narrator",
     narration:
-      "Imagine having a world-class AI race engineer and crew in your helmet along with your racing team having insights to live analytics generated via AI. The XRaceIQ  platform combines our AI Crew Chief device with the HeartBeat dashboard powered by eight autonomous agents analyzing every data point in real-time. Ask a question, get tactical coaching in two seconds. This isn't just racing data, this is your AI teammate and crew making you faster, smarter, and safer every lap. Welcome to the future of racing!",
+      "Imagine having a world-class AI race engineer and crew in your helmet along with your racing team having insights to live analytics generated via AI. The X-RaceIQ  platform combines our AI Crew Chief device with the HeartBeat dashboard powered by eight autonomous agents analyzing every data point in real-time. Ask a question, get tactical coaching in two seconds. This isn't just racing data, this is your AI teammate and crew making you faster, smarter, and safer every lap. Welcome to the future of racing!",
     videoSrc: "/videos/AICommercialIntro.mp4",
   },
   {
