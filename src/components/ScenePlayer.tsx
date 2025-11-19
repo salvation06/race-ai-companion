@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, Pause, SkipForward, SkipBack, Volume2 } from "lucide-react";
 import { scenes } from "@/data/scenes";
+import productImage from "@/assets/ai-headset-model.png";
 
 interface ScenePlayerProps {
   onComplete: () => void;
@@ -255,6 +256,38 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
                   {scene.additionalInfo}
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* Product Showcase */}
+          <div className="mt-12 relative">
+            <div className="absolute inset-0 bg-gradient-racing opacity-20 blur-3xl" />
+            <div className="relative bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-2xl p-8 shadow-racing hover:border-primary/60 transition-all duration-300">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="flex-1">
+                  <div className="inline-block mb-3 px-4 py-1 bg-primary/20 border border-primary rounded-full">
+                    <span className="text-xs font-bold text-primary tracking-wider uppercase">
+                      Actual Product
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2 text-foreground">
+                    AI Crew Chief Device
+                  </h3>
+                  <p className="text-muted-foreground">
+                    Professional-grade AI race engineering system designed for real-time telemetry analysis and strategic coaching.
+                  </p>
+                </div>
+                <div className="flex-shrink-0">
+                  <div className="relative group">
+                    <div className="absolute -inset-4 bg-gradient-racing opacity-30 rounded-2xl blur-xl group-hover:opacity-50 transition-opacity duration-300" />
+                    <img 
+                      src={productImage} 
+                      alt="AI Crew Chief Radio Device" 
+                      className="relative w-64 h-64 object-cover rounded-xl shadow-2xl ring-2 ring-primary/30 group-hover:ring-primary/60 transition-all duration-300"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
