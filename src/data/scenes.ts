@@ -35,19 +35,19 @@ export const scenes: Scene[] = [
   },
   {
     id: 4,
+    title: "Driver Ready Check",
+    visual: "Driver in cockpit preparing for race start",
+    speaker: "Driver",
+    narration: "AI Crew Chief, confirm race data loaded.",
+    imageSrc: "/src/assets/dashboard-cockpit.png",
+  },
+  {
+    id: 5,
     title: "AI Crew Chief Response",
     visual: "Dashboard displaying race data and telemetry",
     speaker: "AI Crew Chief",
     narration:
       "Race data loaded. Indy GP layout. 26-lap event. P1 car number 55 finished in 46 minutes 41.553 seconds with a fastest lap of 1 minute 39.748 seconds at 141.7 kilometers per hour. Your target: maintain lap times in the 1:40.1 to 1:40.4 range for competitive pace.",
-    imageSrc: "/src/assets/dashboard-cockpit.png",
-  },
-  {
-    id: 5,
-    title: "Driver Ready Check",
-    visual: "Driver in cockpit preparing for race start",
-    speaker: "Driver",
-    narration: "AI Crew Chief, confirm race data loaded.",
     imageSrc: "/src/assets/dashboard-cockpit.png",
   },
   {
