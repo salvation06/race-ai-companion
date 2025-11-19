@@ -36,28 +36,56 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
       
       const utterance = new SpeechSynthesisUtterance(text);
       
-      // Select Microsoft David as primary voice
-      const preferredVoices = [
-        'Microsoft David',
-        'David',
-        'Google UK English Male',
-        'Microsoft David Desktop',
-        'Google US English Male',
-        'Alex',
-        'Daniel'
-      ];
+      const currentSpeaker = scene?.speaker;
       
-      const selectedVoice = voices.find(voice => 
-        preferredVoices.some(preferred => voice.name.includes(preferred))
-      ) || voices.find(voice => voice.name.toLowerCase().includes('male'));
-      
-      if (selectedVoice) {
-        utterance.voice = selectedVoice;
+      // Use different voices for Driver vs AI Crew Chief/Narrator
+      if (currentSpeaker === 'Driver') {
+        // Driver voice: prefer female or higher-pitched voice
+        const driverVoicePreferences = [
+          'Microsoft Zira',
+          'Zira',
+          'Samantha',
+          'Google UK English Female',
+          'Google US English Female',
+          'Karen',
+          'Victoria'
+        ];
+        
+        const selectedVoice = voices.find(voice => 
+          driverVoicePreferences.some(preferred => voice.name.includes(preferred))
+        ) || voices.find(voice => voice.name.toLowerCase().includes('female'));
+        
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+        
+        utterance.rate = 0.95;
+        utterance.pitch = 1.1; // Slightly higher pitch for driver
+        utterance.volume = 1.0;
+      } else {
+        // AI Crew Chief/Narrator voice: prefer deeper male voice
+        const crewChiefVoicePreferences = [
+          'Microsoft David',
+          'David',
+          'Google UK English Male',
+          'Microsoft David Desktop',
+          'Google US English Male',
+          'Alex',
+          'Daniel'
+        ];
+        
+        const selectedVoice = voices.find(voice => 
+          crewChiefVoicePreferences.some(preferred => voice.name.includes(preferred))
+        ) || voices.find(voice => voice.name.toLowerCase().includes('male'));
+        
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+        
+        utterance.rate = 0.9;
+        utterance.pitch = 0.9; // Lower pitch for AI Crew Chief
+        utterance.volume = 1.0;
       }
-      
-      utterance.rate = 0.9;
-      utterance.pitch = 0.9;
-      utterance.volume = 1.0;
 
       utterance.onend = () => {
         // Auto-advance to next scene after speech ends
