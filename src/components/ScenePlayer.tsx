@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Play, Pause, SkipForward, SkipBack, Volume2 } from "lucide-react";
 import { scenes } from "@/data/scenes";
 import productImage from "@/assets/ai-headset-model.png";
+import dashboardCockpit from "@/assets/dashboard-cockpit.png";
 
 interface ScenePlayerProps {
   onComplete: () => void;
@@ -166,6 +167,12 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
                   src={scene.videoSrc}
                   className="w-full h-full object-cover"
                   loop
+                />
+              ) : scene.imageSrc ? (
+                <img 
+                  src={dashboardCockpit} 
+                  alt={scene.visual}
+                  className="w-full h-full object-cover"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-dark">
