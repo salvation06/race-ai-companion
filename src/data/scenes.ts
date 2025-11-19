@@ -20,34 +20,20 @@ export const scenes: Scene[] = [
   },
   {
     id: 2,
-    title: "Welcome to AI Crew Chief",
-    visual: "Indy track panorama → futuristic Toyota GR dashboard loads",
-    speaker: "Narrator",
-    narration: "In the Toyota GR Cup, every millisecond matters. Today we introduce AI Crew Chief, an LLM-powered real-time racing strategist designed for the GR86 platform."
-  },
-  {
-    id: 3,
-    title: "System Introduction",
-    visual: "AI CREW CHIEF SYSTEM – ONLINE display",
-    speaker: "Narrator",
-    narration: "AI Crew Chief combines advanced telemetry analysis, real-time coaching, and engineering insights to help drivers find the perfect racing line."
-  },
-  {
-    id: 4,
     title: "Pit Strategy",
     visual: "Pit operations and team coordination",
     narration: "",
     videoSrc: "/videos/pit-stop.mp4"
   },
   {
-    id: 5,
+    id: 3,
     title: "Dashboard Overview",
     visual: "Futuristic Toyota GR dashboard with race data",
     narration: "",
     videoSrc: "/videos/dashboard.mp4"
   },
   {
-    id: 6,
+    id: 4,
     title: "AI Crew Chief Response",
     visual: "Dashboard displaying race data and telemetry",
     speaker: "AI Crew Chief",
@@ -55,7 +41,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 7,
+    id: 5,
     title: "Driver Ready Check",
     visual: "Driver in cockpit preparing for race start",
     speaker: "Driver",
@@ -63,7 +49,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 8,
+    id: 6,
     title: "Race Start Simulation",
     visual: "Race start sequence with car positioning",
     speaker: "Driver",
@@ -71,7 +57,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 9,
+    id: 7,
     title: "Opening Strategy",
     visual: "Track map with strategic points highlighted",
     speaker: "AI Crew Chief",
@@ -79,7 +65,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 10,
+    id: 8,
     title: "Mid-Race Live Analytics",
     visual: "Driver's dash showing speed, gears, track map with real-time data",
     speaker: "Driver",
@@ -87,7 +73,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 11,
+    id: 9,
     title: "Pace Analysis",
     visual: "Comparative lap time analysis display",
     speaker: "AI Crew Chief",
@@ -95,7 +81,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 12,
+    id: 10,
     title: "Gap Analysis",
     visual: "Real-time gap analysis with competitor positions",
     speaker: "Driver",
@@ -103,7 +89,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 13,
+    id: 11,
     title: "Real-Time Telemetry",
     visual: "Detailed telemetry data from Indy race",
     speaker: "AI Crew Chief",
@@ -111,7 +97,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 14,
+    id: 12,
     title: "Engineering Insight",
     visual: "Technical breakdown of GR86 performance characteristics",
     speaker: "Driver",
@@ -119,7 +105,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 15,
+    id: 13,
     title: "GR86 Platform Analysis",
     visual: "Technical diagrams and performance zones",
     speaker: "AI Crew Chief",
@@ -127,7 +113,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 16,
+    id: 14,
     title: "Performance Summary",
     visual: "Race completion metrics and performance data",
     speaker: "AI Crew Chief",
@@ -135,7 +121,7 @@ export const scenes: Scene[] = [
     imageSrc: "/src/assets/dashboard-cockpit.png"
   },
   {
-    id: 17,
+    id: 15,
     title: "Closing Statement",
     visual: "Futuristic HUD with complete race summary and performance metrics",
     speaker: "Narrator",
