@@ -78,9 +78,10 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
       if (scene.videoSrc && videoRef.current) {
         videoRef.current.play();
       }
-      if (scene.narration && scene.narration.trim()) {
+      // Skip speech synthesis for scene 1 (intro video)
+      if (scene.narration && scene.narration.trim() && currentScene !== 0) {
         speak(scene.narration);
-      } else if (!scene.narration || !scene.narration.trim()) {
+      } else if (!scene.narration || !scene.narration.trim() || currentScene === 0) {
         // Auto-advance after video ends if no narration
         if (scene.videoSrc && videoRef.current) {
           const video = videoRef.current;
