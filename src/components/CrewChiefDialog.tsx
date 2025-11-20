@@ -16,6 +16,8 @@ export const CrewChiefDialog = ({ carContext }: CrewChiefDialogProps) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [hasMicPermission, setHasMicPermission] = useState(false);
+  const [isCheckingPermission, setIsCheckingPermission] = useState(false);
   const { toast } = useToast();
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -47,6 +49,37 @@ export const CrewChiefDialog = ({ carContext }: CrewChiefDialogProps) => {
       };
     }
   }, []);
+
+  useEffect(() => {
+    // Request microphone permission when dialog opens
+    if (isOpen && !hasMicPermission) {
+      requestMicrophonePermission();
+    }
+  }, [isOpen]);
+
+  const requestMicrophonePermission = async () => {
+    setIsCheckingPermission(true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Stop the stream immediately, we just needed to trigger permission
+      stream.getTracks().forEach(track => track.stop());
+      setHasMicPermission(true);
+      toast({
+        title: "Microphone Access Granted",
+        description: "You can now ask questions using voice.",
+      });
+    } catch (error) {
+      console.error('Error requesting microphone permission:', error);
+      setHasMicPermission(false);
+      toast({
+        title: "Microphone Access Required",
+        description: "Please allow microphone access to use voice features.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCheckingPermission(false);
+    }
+  };
 
   const startRecording = async () => {
     try {
@@ -168,12 +201,38 @@ export const CrewChiefDialog = ({ carContext }: CrewChiefDialogProps) => {
         </DialogHeader>
         
         <div className="space-y-6 py-4">
+          {/* Microphone Permission Message */}
+          {!hasMicPermission && (
+            <div className="bg-amber-500/10 border-2 border-amber-500/30 rounded-lg p-4">
+              <p className="text-sm font-semibold text-amber-600 dark:text-amber-400 mb-2">
+                Microphone Access Required
+              </p>
+              <p className="text-xs text-muted-foreground mb-3">
+                Please click "Allow" when your browser asks for microphone permission to use voice features.
+              </p>
+              {isCheckingPermission ? (
+                <div className="flex items-center justify-center gap-2 text-primary">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <p className="text-xs">Requesting permission...</p>
+                </div>
+              ) : (
+                <Button 
+                  size="sm" 
+                  onClick={requestMicrophonePermission}
+                  className="w-full"
+                >
+                  Request Microphone Access
+                </Button>
+              )}
+            </div>
+          )}
+
           {/* Recording Button */}
           <div className="flex flex-col items-center gap-4">
             <Button
               size="lg"
               onClick={isRecording ? stopRecording : startRecording}
-              disabled={isProcessing}
+              disabled={isProcessing || !hasMicPermission || isCheckingPermission}
               className={`w-32 h-32 rounded-full ${
                 isRecording 
                   ? 'bg-destructive hover:bg-destructive/90 animate-pulse' 
@@ -187,7 +246,11 @@ export const CrewChiefDialog = ({ carContext }: CrewChiefDialogProps) => {
               )}
             </Button>
             <p className="text-sm text-muted-foreground">
-              {isRecording ? 'Listening... Click to stop' : 'Click to ask a question'}
+              {!hasMicPermission 
+                ? 'Grant microphone access to continue' 
+                : isRecording 
+                ? 'Listening... Click to stop' 
+                : 'Click to ask a question'}
             </p>
           </div>
 
