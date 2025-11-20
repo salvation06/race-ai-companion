@@ -14,6 +14,8 @@ const ScenePlayer = ({ onComplete }: ScenePlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [micPermissionGranted, setMicPermissionGranted] = useState(false);
+  const [showPermissionMessage, setShowPermissionMessage] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
