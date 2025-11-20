@@ -16,6 +16,8 @@ export const CrewChiefDialog = ({ carContext }: CrewChiefDialogProps) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [micPermissionGranted, setMicPermissionGranted] = useState(false);
+  const [showPermissionMessage, setShowPermissionMessage] = useState(false);
   const { toast } = useToast();
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -48,7 +50,34 @@ export const CrewChiefDialog = ({ carContext }: CrewChiefDialogProps) => {
     }
   }, []);
 
+  const requestMicrophonePermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Stop the stream immediately after permission is granted
+      stream.getTracks().forEach(track => track.stop());
+      setMicPermissionGranted(true);
+      setShowPermissionMessage(false);
+      toast({
+        title: "Permission Granted",
+        description: "You can now ask questions to the AI Crew Chief.",
+      });
+    } catch (error) {
+      console.error('Microphone permission denied:', error);
+      setShowPermissionMessage(true);
+      toast({
+        title: "Permission Required",
+        description: "Microphone access is required to ask questions.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const startRecording = async () => {
+    if (!micPermissionGranted) {
+      setShowPermissionMessage(true);
+      return;
+    }
+
     try {
       setQuestion("");
       setAnswer("");
@@ -189,6 +218,20 @@ export const CrewChiefDialog = ({ carContext }: CrewChiefDialogProps) => {
             <p className="text-sm text-muted-foreground">
               {isRecording ? 'Listening... Click to stop' : 'Click to ask a question'}
             </p>
+            
+            {showPermissionMessage && !micPermissionGranted && (
+              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 text-center max-w-md">
+                <p className="text-yellow-200 mb-3">
+                  Please allow microphone access in your browser to ask questions. Click the button below to grant permission.
+                </p>
+                <Button
+                  onClick={requestMicrophonePermission}
+                  className="bg-yellow-600 hover:bg-yellow-700"
+                >
+                  Allow Microphone
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Question Display */}
