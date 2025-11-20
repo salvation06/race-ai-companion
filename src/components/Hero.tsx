@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-react";
+import helmetImage from "@/assets/ai-chief-helmet.png";
 
 interface HeroProps {
   onStartDemo: () => void;
@@ -78,6 +79,39 @@ const Hero = ({ onStartDemo }: HeroProps) => {
           <div className="p-6 rounded-lg bg-card/50 backdrop-blur-sm border border-border">
             <div className="text-3xl font-bold text-primary mb-2">GR86</div>
             <div className="text-sm text-muted-foreground">Platform Optimized</div>
+          </div>
+        </div>
+
+        {/* AI Chief Radio Helmet Showcase */}
+        <div className="mt-24 max-w-5xl mx-auto">
+          <div className="relative group">
+            {/* Glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-primary/30 to-primary/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative bg-card/30 backdrop-blur-sm border-2 border-primary/30 rounded-2xl p-8 md:p-12 hover:border-primary/50 transition-all duration-300">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-primary/10 border border-primary/30 mb-4">
+                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                  <span className="text-sm font-bold tracking-wider text-primary">HARDWARE</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black mb-3 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+                  AI CHIEF RADIO™
+                </h2>
+                <p className="text-muted-foreground text-lg font-light">
+                  Helmet-mounted AI race engineer for Toyota GR Cup
+                </p>
+              </div>
+              
+              <div className="relative">
+                <img 
+                  src={helmetImage} 
+                  alt="AI Chief Radio Helmet System" 
+                  className="w-full h-auto rounded-lg shadow-2xl"
+                />
+                {/* Subtle border glow on hover */}
+                <div className="absolute inset-0 rounded-lg border-2 border-primary/0 group-hover:border-primary/50 transition-all duration-500" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
