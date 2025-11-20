@@ -6,7 +6,7 @@ export const Navigation = () => {
   const location = useLocation();
   
   return (
-    <nav className="fixed left-4 top-1/2 -translate-y-1/2 z-50 py-4 px-3 rounded-2xl bg-card/80 backdrop-blur-md border border-border shadow-racing">
+    <nav className="fixed left-4 top-4 z-50 py-4 px-3 rounded-2xl bg-card/80 backdrop-blur-md border border-border shadow-racing">
       <div className="flex flex-col items-center gap-3">
         <Link
           to="/"
