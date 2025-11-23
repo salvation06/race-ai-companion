@@ -1,4 +1,4 @@
-##Inspiration
+## Inspiration
 Racing demands split-second decisions and perfect awareness of machine and environment. We built X-RaceIQ: a voice-activated AI race engineer that lives in your helmet. The AI Crew Chief Radio hardware device delivers real-time telemetry analysis and tactical coaching in under 2 seconds, while the HeartBeat Dashboard coordinates 8 autonomous agents to provide world-class engineering intelligence (**DEMO HERE** - [link](https://x-raceiq.lovable.app)):
 
 ## What it does
@@ -317,19 +317,19 @@ Device: [Green LED flash]
 - Market opportunity ($850M)
 - Technical execution (code + detailed specs)
 
-##Challenges we ran into
+## Challenges we ran into
 Integrating multiple data streams and simulating a real time race strategy for the purpose of a demo
 Designing coaching prompts that are fast, actionable, and never distracting
 Ensuring the system performs with responsiveness
 Working with AI LLM models to create a realistic looking design for the helmet and AI device integration
 
-##Accomplishments that we're proud of
+## Accomplishments that we're proud of
 Delivering tactical coaching responses in under two seconds
 Creating a fully autonomous AI race engineering stack
 Developing a holistic driver-and-machine performance model
 Design of seamless communication between the helmet device and HeartBeat dashboard
 
-##What we learned
+## What we learned
 We learned that the right AI insights at the right moment can dramatically elevate a driver’s pace, confidence, and safety. We also discovered the importance of intuitive audio coaching and the power of combining physiological, mechanical, and environmental data into one unified system.
 
 ##What's next for X-RaceIQ
