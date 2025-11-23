@@ -21,22 +21,22 @@ export const scenes: Scene[] = [
   },
   {
     id: 2,
-    title: "Pit Strategy",
-    visual: "Pit operations and team coordination",
+    title: "Ask AI Chief For Strategy",
+    visual: "Driver asks via AI Helmet Device for assistance",
     narration: "",
     videoSrc: "/videos/pit-stop.mp4",
   },
   {
     id: 3,
-    title: "Dashboard Overview",
-    visual: "Futuristic Toyota GR dashboard with race data",
+    title: "AI Chief Response To Driver",
+    visual: "Via Helmet Communication AI Chief Responds To Driver in Real Time",
     narration: "",
     videoSrc: "/videos/dashboard.mp4",
   },
   {
     id: 4,
-    title: "Driver Ready Check",
-    visual: "Driver in cockpit preparing for race start",
+    title: "Driver asks AI Chief",
+    visual: "Driver in car communicating with AI Chief",
     speaker: "Driver",
     narration: "AI Crew Chief, confirm race data loaded.",
     imageSrc: "/src/assets/dashboard-cockpit.png",
@@ -44,7 +44,7 @@ export const scenes: Scene[] = [
   {
     id: 5,
     title: "AI Crew Chief Response",
-    visual: "Dashboard displaying race data and telemetry",
+    visual: "AI Chief response and team members monitor the HeartBeat Dashboard for clarity",
     speaker: "AI Crew Chief",
     narration:
       "Race data loaded. Indy GP layout. 26-lap event. P1 car number 55 finished in 46 minutes 41.553 seconds with a fastest lap of 1 minute 39.748 seconds at 141.7 kilometers per hour. Your target: maintain lap times in the 1:40.1 to 1:40.4 range for competitive pace.",
