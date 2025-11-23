@@ -1,23 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Hero from "@/components/Hero";
 import ScenePlayer from "@/components/ScenePlayer";
-
+import { useNavigate, useSearchParams } from "react-router-dom";
+ 
 const Index = () => {
   const [showDemo, setShowDemo] = useState(false);
   const [demoComplete, setDemoComplete] = useState(false);
-
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+ 
   const handleStartDemo = () => {
     setShowDemo(true);
   };
-
+ 
   const handleDemoComplete = () => {
     setDemoComplete(true);
   };
-
+ 
   const handleRestart = () => {
     setShowDemo(false);
     setDemoComplete(false);
   };
+
+  useEffect(() => {
+    const homeParam = searchParams.get("home");
+    if (homeParam) {
+      setShowDemo(false);
+      setDemoComplete(false);
+      navigate("/", { replace: true });
+    }
+  }, [searchParams, navigate]);
 
   if (demoComplete) {
     return (
