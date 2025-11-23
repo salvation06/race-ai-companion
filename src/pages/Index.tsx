@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Hero from "@/components/Hero";
 import ScenePlayer from "@/components/ScenePlayer";
-import { Navigation } from "@/components/Navigation";
 
 const Index = () => {
   const [showDemo, setShowDemo] = useState(false);
@@ -84,12 +83,7 @@ const Index = () => {
     return <ScenePlayer onComplete={handleDemoComplete} />;
   }
 
-  return (
-    <>
-      <Navigation />
-      <Hero onStartDemo={handleStartDemo} />
-    </>
-  );
+  return <Hero onStartDemo={handleStartDemo} />;
 };
 
 export default Index;
